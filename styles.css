@@ -1,0 +1,19 @@
+#main{
+    border: 1px solid black;
+    height: 400px;
+    width: 400px;
+}
+
+.row{
+    height: 38px;
+    width:  100%;
+    border: 1px solid firebrick;
+    display: flex;
+    flex-direction: row;
+}
+.column{
+    height: 100%;
+    width:  10%;
+    border: 1px solid blueviolet;
+}
+
