@@ -8,7 +8,6 @@ function Grid(height, width, gridElement) {
 
 Grid.prototype = {
 
-
     //creates the board and calls the new Cell constructor function
     createGrid: function (height, width, gridElement) {
         this.createElement();
@@ -21,18 +20,12 @@ Grid.prototype = {
             this.gridElement.appendChild(rowElement);
 
 
-
             for (let colIndex = 0; colIndex < this.width; colIndex++) {
                 let cell = new Cell(rowIndex, colIndex, rowElement)
 
                 this.board[rowIndex].push(cell)
-
             }
         }
-
-        console.table(this.board)
-
-
     },
 
     //appends the grid to the page
@@ -45,44 +38,39 @@ Grid.prototype = {
     },
     //handles the click event 
     clickEvent: function (event) {
-        console.log(event.target.dataset.rowIndex)
+        // console.log(event.target.dataset.rowIndex)
         const cellData = this.findLocation(event.target.dataset.rowIndex, event.target.dataset.colIndex)
-
+        const neighborCellData = this.findNeighbor(event.target.dataset.rowIndex, event.target.dataset.colIndex)
     },
 
     //finds the location of the target Cell
     findLocation: function (rowIndex, colIndex) {
-       
-        console.log(colIndex)
-        return this.board[rowIndex];
-
+        if (this.board[rowIndex] && this.board[rowIndex][colIndex]) {
+            console.log(this.board[rowIndex][colIndex])
+            this.board[rowIndex][colIndex]
+        } else {
+            return null
+        }
     },
+
+    findNeighbor: function (rowIndex, colIndex) {
+        rowIndex = Number(rowIndex)
+        colIndex = Number(colIndex)
+        
+        
+        if(this.board[rowIndex] && this.board[rowIndex][colIndex]){
+        let neighborDown = this.findLocation(rowIndex + 1, colIndex); // todo: do this for the next three lines
+        let neighborUp = this.findLocation(rowIndex - 1,colIndex);
+        let neighborLeft = this.findLocation(rowIndex,colIndex - 1);
+        let neighborRight = this.findLocation(rowIndex, colIndex + 1);
+        }else{
+            return null;
+        }
+    },
+
     constructor: Grid,
 }
 
-
-//The Cell constructor function. Appends the new div on the page.
-function Cell(rowIndex, colIndex, rowElement) {
-
-    this.putOnPage(rowIndex, colIndex, rowElement);
-    this.rowIndex = rowIndex;
-    this.colIndex = colIndex;
-}
-
-Cell.prototype = {
-
-
-    putOnPage: function (rowIndex, colIndex, rowElement) {
-
-        const colElement = document.createElement("div");
-        colElement.classList.add("column");
-        rowElement.appendChild(colElement)
-        colElement.dataset.colIndex = colIndex;
-        colElement.dataset.rowIndex = rowIndex;
-    },
-    constructor: Cell,
-
-}
-const inputs = new Grid(10, 10, document.getElementById("main"));
+const inputs = new Grid(8, 8, document.getElementById("main"));
 
 inputs.createGrid();
